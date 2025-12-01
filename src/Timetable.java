@@ -18,22 +18,22 @@ public class Timetable {
         DayOfWeek dayOfWeek = trainingSession.getDayOfWeek();
         TimeOfDay timeOfDay = trainingSession.getTimeOfDay();
 
-        if (timetable.containsKey(dayOfWeek)){
+        if (timetable.containsKey(dayOfWeek)) {
             mapTrainingSessionsOfDay = timetable.get(dayOfWeek);
-        }else {
-            mapTrainingSessionsOfDay  = new TreeMap<>(timeOfDayComparator);
-            timetable.put(dayOfWeek,mapTrainingSessionsOfDay);
+        } else {
+            mapTrainingSessionsOfDay = new TreeMap<>(timeOfDayComparator);
+            timetable.put(dayOfWeek, mapTrainingSessionsOfDay);
         }
 
         if (mapTrainingSessionsOfDay.containsKey(timeOfDay)) {
             setTrainingSessionsOfDay = mapTrainingSessionsOfDay.get(timeOfDay);
-            for (TrainingSession thisTrainingSession : setTrainingSessionsOfDay){
+            for (TrainingSession thisTrainingSession : setTrainingSessionsOfDay) {
                 if (thisTrainingSession.getCoach().equals(trainingSession.getCoach())
-                    || thisTrainingSession.getGroup().equals(trainingSession.getGroup())) {
+                        || thisTrainingSession.getGroup().equals(trainingSession.getGroup())) {
                     return false;
                 }
             }
-        }else {
+        } else {
             setTrainingSessionsOfDay = new HashSet<>();
         }
         setTrainingSessionsOfDay.add(trainingSession);
@@ -53,22 +53,22 @@ public class Timetable {
         //сложность должна быть О(1)
         Map<TimeOfDay, Set<TrainingSession>> trainingSessionsOfDay;
         trainingSessionsOfDay = timetable.get(dayOfWeek);
-        if (trainingSessionsOfDay != null){
+        if (trainingSessionsOfDay != null) {
             return trainingSessionsOfDay.get(timeOfDay);
-        }else {
+        } else {
             return null;
         }
     }
 
     public Set<CounterOfTrainings> getCountByCoaches() {
-        Map<Coach, CounterOfTrainings> mapCountByCoaches= new HashMap<>();
+        Map<Coach, CounterOfTrainings> mapCountByCoaches = new HashMap<>();
         for (Map.Entry<DayOfWeek, Map<TimeOfDay, Set<TrainingSession>>> entry : timetable.entrySet()) {
             for (Map.Entry<TimeOfDay, Set<TrainingSession>> entry1 : entry.getValue().entrySet()) {
                 for (TrainingSession trainingSession : entry1.getValue()) {
                     Coach coach = trainingSession.getCoach();
                     if (mapCountByCoaches.containsKey(coach)) {
                         mapCountByCoaches.get(coach).increaseCountByOne();
-                    }else {
+                    } else {
                         mapCountByCoaches.put(coach, new CounterOfTrainings(coach));
                     }
                 }
