@@ -7,7 +7,13 @@ public class Timetable {
     Comparator<TimeOfDay> timeOfDayComparator = new Comparator<>() {
         @Override
         public int compare(TimeOfDay t1, TimeOfDay t2) {
-            return (t1.getHours() - t2.getHours()) + (t1.getMinutes() - t2.getMinutes());
+            //Сравним часы
+            int diff = Integer.compare(t1.getHours(), t2.getHours());
+            if (diff != 0) return diff;
+
+            //Если часы равны, то идем по убыванию к более мелким сущностям. Далее минуты
+            diff = Integer.compare(t1.getMinutes(), t2.getMinutes());
+            return diff;
         }
     };
 
